@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Card from './components/Card';
+import Button from './components/Button';
 
 export default function Home()
 {
@@ -23,10 +24,15 @@ export default function Home()
     }, []);
 
     return (
-        <div className='w-fit mx-auto my-10 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 '>
+        <>
+
+            <div className='w-fit mx-auto my-10 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6'>
             {pokemonList.map((pokemon, idx) => (
                 <Card image={pokemon['sprites']['other']['home']['front_default']} name={pokemon['name']} types={pokemon['types']} key={idx} />
             ))}
         </div>
+
+            <Button />
+        </>
     );
 }
