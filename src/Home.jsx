@@ -5,23 +5,37 @@ import Button from './components/Button';
 export default function Home()
 {
     const [pokemonList, setPokemonList] = useState([]);
+    const [offset, setOffset] = useState(0);
 
     useEffect(() =>
     {
-        fetch('https://pokeapi.co/api/v2/pokemon?limit=150')
+        fetchPokemonsData();
+        setOffset(offset + 10);
+    }, []);
+
+    const fetchPokemonsData = () =>
+    {
+        fetch(`https://pokeapi.co/api/v2/pokemon?limit=10&offset=${offset}`)
             .then((res) => res.json())
             .then((pokemons) =>
             {
-                const promises = pokemons.results.map(pokemon =>
+                const promises = pokemons.results.map((pokemon) =>
                 {
                     return fetch(pokemon.url)
                         .then((response) => response.json());
                 });
 
                 Promise.all(promises)
-                    .then((pokeDataArray) => setPokemonList(pokeDataArray));
+                    .then((pokeDataArray) => setPokemonList((prevList) => [...prevList, ...pokeDataArray]));
             });
-    }, []);
+    };
+
+    const loadMore = () =>
+    {
+        setOffset(offset + 10);
+        fetchPokemonsData();
+        console.log('done');
+    }
 
     return (
         <>
@@ -32,7 +46,7 @@ export default function Home()
             ))}
         </div>
 
-            <Button />
+            <Button onClick={loadMore} />
         </>
     );
 }

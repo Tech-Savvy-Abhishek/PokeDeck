@@ -1,10 +1,12 @@
 import React from 'react';
 
-export default function Button()
+export default function Button({ onClick })
 {
     return (
         <>
-            <button className='bg-black text-white rounded-2xl p-2 my-2'>
+            <button
+                onClick={onClick}
+                className='bg-gray-200 text-black rounded-md p-2 my-2 shadow-md'>
                 Load more
             </button>
         </>
